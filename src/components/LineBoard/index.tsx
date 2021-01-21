@@ -6,6 +6,7 @@ import themeState from '../../store/atoms/theme';
 import AppTheme from '../../models/Theme';
 import { APITrainType, Line, Station } from '../../models/StationAPI';
 import LineBoardSaikyo from '../LineBoardSaikyo';
+import LineBoardYamanote from '../LineBoardYamanote';
 
 export interface Props {
   arrived: boolean;
@@ -63,14 +64,23 @@ const LineBoard: React.FC<Props> = ({
           lineColors={lineColors}
         />
       );
+    case AppTheme.Yamanote:
+      return (
+        <LineBoardYamanote
+          arrived={arrived}
+          stations={stations}
+          line={belongingLines[0] || selectedLine}
+          hasTerminus={hasTerminus}
+        />
+      );
     default:
       return (
         <LineBoardEast
           arrived={arrived}
           stations={slicedStations}
           line={belongingLines[0] || selectedLine}
-          lines={belongingLines}
           hasTerminus={hasTerminus}
+          lines={belongingLines}
           lineColors={lineColors}
         />
       );

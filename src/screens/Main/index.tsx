@@ -38,6 +38,9 @@ import { isYamanoteLine } from '../../utils/loopLine';
 import getSlicedStations from '../../utils/slicedStations';
 import getCurrentLine from '../../utils/currentLine';
 import speechState from '../../store/atoms/speech';
+import themeState from '../../store/atoms/theme';
+import AppTheme from '../../models/Theme';
+import TransfersYamanote from '../../components/TransfersYamanote';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 let globalSetBGLocation = (location: LocationObject): void => undefined;
@@ -69,6 +72,7 @@ const styles = StyleSheet.create({
 });
 
 const MainScreen: React.FC = () => {
+  const { theme } = useRecoilValue(themeState);
   const { selectedLine } = useRecoilValue(lineState);
   const [{ stations, selectedDirection, arrived }, setStation] = useRecoilState(
     stationState
@@ -301,7 +305,11 @@ const MainScreen: React.FC = () => {
     case 'TRANSFER':
       return (
         <View style={styles.touchable}>
-          <Transfers onPress={toLineState} lines={transferLines} />
+          {theme !== AppTheme.Yamanote ? (
+            <Transfers onPress={toLineState} lines={transferLines} />
+          ) : (
+            <TransfersYamanote onPress={toLineState} lines={transferLines} />
+          )}
         </View>
       );
     default:
